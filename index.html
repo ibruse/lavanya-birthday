@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Happy Birthday Lavanya 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Sacramento&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --rose: #e8517a;
+    --deep-rose: #c23868;
+    --blush: #fce4ec;
+    --gold: #d4a843;
+    --cream: #fff8f0;
+    --dark: #1a0a14;
+    --muted: #7a4060;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: #fff;
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== GATE SCREEN ===== */
+  #gate {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #2a0a1e 0%, #0d0009 100%);
+    padding: 2rem;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  #gate.hidden {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+
+  .gate-title {
+    font-family: 'Sacramento', cursive;
+    font-size: 2.8rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+    text-align: center;
+  }
+
+  .gate-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+    text-align: center;
+  }
+
+  .gate-form {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  .field-wrap {
+    position: relative;
+  }
+
+  .field-wrap label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .field-wrap input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(212,168,67,0.3);
+    border-radius: 12px;
+    padding: 0.85rem 1.1rem;
+    color: #fff;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .field-wrap input:focus {
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.1);
+  }
+
+  .enter-btn {
+    margin-top: 0.5rem;
+    background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+    border: none;
+    border-radius: 50px;
+    padding: 1rem;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(232,81,122,0.4);
+  }
+
+  .enter-btn:active { transform: scale(0.97); }
+
+  /* NO NO animation */
+  #no-no {
+    display: none;
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 16px;
+    background: rgba(232,81,122,0.1);
+    border: 1px solid rgba(232,81,122,0.3);
+    margin-top: 0.5rem;
+  }
+
+  #no-no.show { display: block; animation: nono 0.4s ease; }
+
+  .no-emoji {
+    font-size: 2.5rem;
+    animation: shake 0.5s ease;
+    display: inline-block;
+  }
+
+  .no-text {
+    font-size: 1rem;
+    color: var(--rose);
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+
+  @keyframes shake {
+    0%,100% { transform: rotate(0deg); }
+    20% { transform: rotate(-15deg) scale(1.2); }
+    40% { transform: rotate(15deg) scale(1.2); }
+    60% { transform: rotate(-10deg); }
+    80% { transform: rotate(10deg); }
+  }
+
+  @keyframes nono {
+    0% { transform: translateY(8px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ===== MAIN SITE ===== */
+  #main { display: none; }
+  #main.visible { display: block; }
+
+  /* HERO */
+  .hero {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 30%, #3d0a2a 0%, #0d0009 70%);
+  }
+
+  .petals-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .petal {
+    position: absolute;
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-60px) rotate(0deg); opacity: 0.7; }
+    80% { opacity: 0.4; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  .hero-badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(212,168,67,0.4);
+    border-radius: 50px;
+    padding: 0.4rem 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Sacramento', cursive;
+    font-size: clamp(4rem, 18vw, 6rem);
+    color: #fff;
+    line-height: 1;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.4s forwards;
+    text-shadow: 0 0 60px rgba(232,81,122,0.5);
+  }
+
+  .hero-age {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.3em;
+    color: var(--rose);
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+
+  .hero-heart {
+    font-size: 3rem;
+    margin: 1.5rem 0;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards, pulse 2s 1.6s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  .hero-quote {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+    max-width: 300px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.5s forwards;
+  }
+
+  .scroll-hint span {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .scroll-arrow {
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%,100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* ===== SECTIONS ===== */
+  section {
+    padding: 5rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    opacity: 0;
+    transition: opacity 0.6s, transform 0.6s;
+    transform: translateY(20px);
+  }
+
+  .section-label.in-view { opacity: 1; transform: translateY(0); }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.7s 0.1s, transform 0.7s 0.1s;
+    transform: translateY(25px);
+  }
+
+  .section-title.in-view { opacity: 1; transform: translateY(0); }
+
+  /* ABOUT / TRAITS SECTION */
+  .traits-section {
+    background: linear-gradient(180deg, #0d0009 0%, #1a0520 100%);
+  }
+
+  .traits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .trait-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(232,81,122,0.2);
+    border-radius: 20px;
+    padding: 1.5rem 1.1rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    transform: translateY(30px) scale(0.95);
+  }
+
+  .trait-card.in-view { opacity: 1; transform: translateY(0) scale(1); }
+
+  .trait-icon { font-size: 2rem; margin-bottom: 0.7rem; }
+
+  .trait-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: #fff;
+    margin-bottom: 0.3rem;
+  }
+
+  .trait-desc {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* LETTER SECTION */
+  .letter-section {
+    background: var(--dark);
+  }
+
+  .letter-paper {
+    background: rgba(255,248,240,0.04);
+    border: 1px solid rgba(212,168,67,0.2);
+    border-radius: 24px;
+    padding: 2rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.8s, transform 0.8s;
+    transform: translateY(30px);
+  }
+
+  .letter-paper.in-view { opacity: 1; transform: translateY(0); }
+
+  .letter-paper::before {
+    content: '"';
+    font-family: 'Sacramento', cursive;
+    font-size: 8rem;
+    color: rgba(232,81,122,0.08);
+    position: absolute;
+    top: -1rem;
+    left: 0.5rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .letter-text {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: rgba(255,255,255,0.8);
+    font-style: italic;
+  }
+
+  .letter-text .highlight {
+    color: var(--rose);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .letter-sign {
+    font-family: 'Sacramento', cursive;
+    font-size: 2rem;
+    color: var(--gold);
+    margin-top: 1.5rem;
+    text-align: right;
+  }
+
+  /* WISHES SECTION */
+  .wishes-section {
+    background: linear-gradient(180deg, #1a0520 0%, #0d0009 100%);
+  }
+
+  .wish-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    transition: opacity 0.6s, transform 0.6s;
+    transform: translateX(-20px);
+  }
+
+  .wish-item.in-view { opacity: 1; transform: translateX(0); }
+
+  .wish-num {
+    font-family: 'Sacramento', cursive;
+    font-size: 2.5rem;
+    color: var(--rose);
+    line-height: 1;
+    min-width: 40px;
+  }
+
+  .wish-text {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.75);
+    padding-top: 0.4rem;
+  }
+
+  /* COUNTDOWN / FIREWORKS SECTION */
+  .finale-section {
+    background: radial-gradient(ellipse at center, #2a0a1e 0%, #0d0009 100%);
+    text-align: center;
+    padding-bottom: 7rem;
+  }
+
+  .cake-emoji {
+    font-size: 5rem;
+    display: inline-block;
+    opacity: 0;
+    transition: opacity 0.8s;
+    animation: none;
+  }
+
+  .cake-emoji.in-view {
+    opacity: 1;
+    animation: bounce 1s ease infinite alternate;
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-12px); }
+  }
+
+  .big-wish {
+    font-family: 'Sacramento', cursive;
+    font-size: clamp(2.5rem, 11vw, 4rem);
+    line-height: 1.3;
+    margin: 1rem 0;
+    opacity: 0;
+    transition: opacity 0.8s 0.2s, transform 0.8s 0.2s;
+    transform: scale(0.9);
+  }
+
+  .big-wish.in-view { opacity: 1; transform: scale(1); }
+
+  .confetti-btn {
+    margin-top: 2rem;
+    background: linear-gradient(135deg, var(--rose), #ff6b9d);
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    box-shadow: 0 6px 30px rgba(232,81,122,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    opacity: 0;
+    transition: opacity 0.8s 0.4s, transform 0.2s, box-shadow 0.2s;
+  }
+
+  .confetti-btn.in-view { opacity: 1; }
+  .confetti-btn:active { transform: scale(0.96); }
+
+  /* CONFETTI CANVAS */
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* FLOATING HEARTS */
+  .floating-hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+  }
+
+  .float-heart {
+    position: absolute;
+    bottom: -60px;
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(-15deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-110vh) rotate(15deg); opacity: 0; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* divider */
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1rem 0 1.5rem;
+  }
+
+  .divider.center { margin-left: auto; margin-right: auto; }
+
+  /* Stars bg */
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0;
+    animation: twinkle ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%,100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 0.6; transform: scale(1); }
+  }
+
+  .content { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+
+<!-- Stars background -->
+<div class="stars" id="stars"></div>
+
+<!-- Floating hearts -->
+<div class="floating-hearts" id="hearts"></div>
+
+<!-- Confetti canvas -->
+<canvas id="confetti-canvas"></canvas>
+
+<!-- ===== GATE ===== -->
+<div id="gate">
+  <p class="gate-title">A Secret Awaits You</p>
+  <p class="gate-sub">Enter to unlock your surprise</p>
+
+  <div class="gate-form">
+    <div class="field-wrap">
+      <label>Your Name</label>
+      <input type="text" id="name-input" placeholder="Type your name..." autocomplete="off" />
+    </div>
+    <div class="field-wrap">
+      <label>Your Age</label>
+      <input type="number" id="age-input" placeholder="How old are you?" min="1" max="120" />
+    </div>
+
+    <div id="no-no">
+      <div class="no-emoji">🚫</div>
+      <p class="no-text" id="no-text">Hmm, that doesn't seem right...</p>
+    </div>
+
+    <button class="enter-btn" onclick="tryEnter()">✨ Open My Surprise</button>
+  </div>
+</div>
+
+<!-- ===== MAIN SITE ===== -->
+<div id="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="petals-bg" id="petals"></div>
+    <div class="content">
+      <div class="hero-badge">✦ A Special Day ✦</div>
+      <h1 class="hero-name" id="display-name">Lavanya</h1>
+      <p class="hero-age">Turns 26 Today</p>
+      <div class="hero-heart">💖</div>
+      <p class="hero-quote">Some people light up every room they walk into. You light up every life you touch.</p>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </div>
+
+  <!-- TRAITS -->
+  <section class="traits-section">
+    <div class="content">
+      <p class="section-label">Who You Are</p>
+      <h2 class="section-title">The Magic That<br><em>Makes You, You</em></h2>
+      <div class="divider"></div>
+      <div class="traits-grid">
+        <div class="trait-card" style="transition-delay:0.0s">
+          <div class="trait-icon">🌸</div>
+          <div class="trait-name">Radiant</div>
+          <div class="trait-desc">Your smile can turn the darkest day golden</div>
+        </div>
+        <div class="trait-card" style="transition-delay:0.1s">
+          <div class="trait-icon">✨</div>
+          <div class="trait-name">Rare</div>
+          <div class="trait-desc">One in a billion — there's simply no one like you</div>
+        </div>
+        <div class="trait-card" style="transition-delay:0.2s">
+          <div class="trait-icon">💫</div>
+          <div class="trait-name">Graceful</div>
+          <div class="trait-desc">The way you carry yourself is pure elegance</div>
+        </div>
+        <div class="trait-card" style="transition-delay:0.3s">
+          <div class="trait-icon">🔥</div>
+          <div class="trait-name">Fierce</div>
+          <div class="trait-desc">Strong, bold and utterly unstoppable</div>
+        </div>
+        <div class="trait-card" style="transition-delay:0.4s">
+          <div class="trait-icon">🌙</div>
+          <div class="trait-name">Dreamer</div>
+          <div class="trait-desc">Your imagination paints a better world</div>
+        </div>
+        <div class="trait-card" style="transition-delay:0.5s">
+          <div class="trait-icon">💝</div>
+          <div class="trait-name">Beloved</div>
+          <div class="trait-desc">Deeply, truly, completely adored</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LETTER -->
+  <section class="letter-section">
+    <div class="content">
+      <p class="section-label">From the Heart</p>
+      <h2 class="section-title">A Love Letter<br><em>Just for You</em></h2>
+      <div class="divider"></div>
+      <div class="letter-paper">
+        <p class="letter-text">
+          My dearest <span class="highlight">Lavanya</span>,<br><br>
+          Twenty six years ago, the universe decided to do something extraordinary —
+          it brought <span class="highlight">you</span> into this world.<br><br>
+          And every single day since then, the world has been a more beautiful,
+          more colourful, more <span class="highlight">magical</span> place because of it.<br><br>
+          You are not just someone I love — you are the reason I believe in
+          <span class="highlight">extraordinary things</span>.<br><br>
+          On this special day, I want you to feel every ounce of joy you so
+          effortlessly give to everyone around you.<br><br>
+          Today is <span class="highlight">your day</span>. Own every bit of it. ✨
+        </p>
+        <div class="letter-sign">Forever yours 💕</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WISHES -->
+  <section class="wishes-section">
+    <div class="content">
+      <p class="section-label">26 Wishes for 26 Years</p>
+      <h2 class="section-title">Everything I Wish<br><em>For You</em></h2>
+      <div class="divider"></div>
+
+      <div class="wish-item">
+        <div class="wish-num">01</div>
+        <div class="wish-text">A year filled with laughter so real it makes your stomach hurt</div>
+      </div>
+      <div class="wish-item">
+        <div class="wish-num">02</div>
+        <div class="wish-text">Every dream you hold close finally finding its way to you</div>
+      </div>
+      <div class="wish-item">
+        <div class="wish-num">03</div>
+        <div class="wish-text">Mornings that feel like warm sunlight on your skin</div>
+      </div>
+      <div class="wish-item">
+        <div class="wish-num">04</div>
+        <div class="wish-text">Adventures that take your breath away and stories worth telling</div>
+      </div>
+      <div class="wish-item">
+        <div class="wish-num">05</div>
+        <div class="wish-text">Moments where you feel completely, perfectly yourself</div>
+      </div>
+      <div class="wish-item">
+        <div class="wish-num">06</div>
+        <div class="wish-text">Love that is steady, deep, and endlessly patient</div>
+      </div>
+      <div class="wish-item">
+        <div class="wish-num">07</div>
+        <div class="wish-text">The courage to chase what sets your soul on fire</div>
+      </div>
+      <div class="wish-item">
+        <div class="wish-num">08</div>
+        <div class="wish-text">Peace in moments when life gets loud and messy</div>
+      </div>
+      <div class="wish-item">
+        <div class="wish-num">09</div>
+        <div class="wish-text">People who truly see you and love every version of you</div>
+      </div>
+      <div class="wish-item">
+        <div class="wish-num">10</div>
+        <div class="wish-text">The sweetest surprises you never saw coming</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINALE -->
+  <section class="finale-section">
+    <div class="content">
+      <div class="cake-emoji">🎂</div>
+      <h2 class="big-wish">Happy Birthday,<br>Lavanya!</h2>
+      <div class="divider center"></div>
+      <p style="font-size:1rem; color:rgba(255,255,255,0.6); font-style:italic; line-height:1.9; max-width:280px; margin:0 auto;">
+        May 26 be your most radiant year yet — full of love, laughter, and everything beautiful.
+      </p>
+      <br>
+      <button class="confetti-btn" onclick="launchConfetti()">
+        🎉 Celebrate!
+      </button>
+    </div>
+  </section>
+
+</div><!-- end #main -->
+
+<script>
+/* ===== STARS ===== */
+(function(){
+  const s = document.getElementById('stars');
+  for(let i=0;i<80;i++){
+    const el = document.createElement('div');
+    el.className = 'star';
+    const size = Math.random()*2+1;
+    el.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*5}s`;
+    s.appendChild(el);
+  }
+})();
+
+/* ===== PETALS ===== */
+function makePetals(){
+  const c = document.getElementById('petals');
+  const colors = ['#e8517a','#ff6b9d','#fce4ec','#d4a843','#c23868'];
+  for(let i=0;i<22;i++){
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = 8+Math.random()*14;
+    const col = colors[Math.floor(Math.random()*colors.length)];
+    p.style.cssText = `width:${size}px;height:${size}px;background:${col};left:${Math.random()*100}%;animation-duration:${5+Math.random()*8}s;animation-delay:${Math.random()*6}s;opacity:0`;
+    c.appendChild(p);
+  }
+}
+
+/* ===== FLOATING HEARTS ===== */
+function makeHearts(){
+  const c = document.getElementById('hearts');
+  const h = ['💖','💕','💗','💓','🌸','✨'];
+  for(let i=0;i<12;i++){
+    const el = document.createElement('div');
+    el.className = 'float-heart';
+    el.textContent = h[Math.floor(Math.random()*h.length)];
+    el.style.cssText = `left:${5+Math.random()*90}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*10}s;font-size:${0.8+Math.random()*0.8}rem`;
+    c.appendChild(el);
+  }
+}
+
+/* ===== GATE LOGIC ===== */
+function tryEnter(){
+  const name = document.getElementById('name-input').value.trim();
+  const age = parseInt(document.getElementById('age-input').value.trim());
+  const noEl = document.getElementById('no-no');
+  const noText = document.getElementById('no-text');
+  const noEmoji = noEl.querySelector('.no-emoji');
+
+  const nameMatch = name.toLowerCase() === 'lavanya';
+  const ageMatch = age === 26;
+
+  if(nameMatch && ageMatch){
+    document.getElementById('gate').classList.add('hidden');
+    setTimeout(()=>{
+      document.getElementById('gate').style.display='none';
+      const main = document.getElementById('main');
+      main.classList.add('visible');
+      makePetals();
+      makeHearts();
+      initScrollObserver();
+      launchConfetti();
+    },800);
+  } else {
+    noEl.classList.remove('show');
+    void noEl.offsetWidth;
+    noEl.classList.add('show');
+    noEmoji.style.animation='none';
+    void noEmoji.offsetWidth;
+    noEmoji.style.animation='shake 0.5s ease';
+
+    if(!name || (!nameMatch && !ageMatch)){
+      noText.textContent = "Hmm... that's not quite right! Try again 😊";
+    } else if(!nameMatch){
+      noText.textContent = "That name doesn't seem familiar... 🤔";
+    } else {
+      noText.textContent = "That age doesn't match! How old are you really? 😄";
+    }
+
+    document.getElementById('name-input').style.borderColor = nameMatch ? 'rgba(212,168,67,0.3)' : '#e8517a';
+    document.getElementById('age-input').style.borderColor = ageMatch ? 'rgba(212,168,67,0.3)' : '#e8517a';
+  }
+}
+
+document.getElementById('name-input').addEventListener('keyup', e=> e.key==='Enter' && document.getElementById('age-input').focus());
+document.getElementById('age-input').addEventListener('keyup', e=> e.key==='Enter' && tryEnter());
+
+/* ===== SCROLL OBSERVER ===== */
+function initScrollObserver(){
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add('in-view');
+    });
+  },{threshold:0.15});
+
+  document.querySelectorAll('.section-label,.section-title,.trait-card,.letter-paper,.wish-item,.cake-emoji,.big-wish,.confetti-btn').forEach(el=>obs.observe(el));
+}
+
+/* ===== CONFETTI ===== */
+function launchConfetti(){
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = ['#e8517a','#d4a843','#ff6b9d','#fff','#fce4ec','#c23868','#ffe082'];
+  const pieces = [];
+
+  for(let i=0;i<140;i++){
+    pieces.push({
+      x: Math.random()*canvas.width,
+      y: -20 - Math.random()*200,
+      w: 6+Math.random()*8,
+      h: 10+Math.random()*6,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      vy: 2+Math.random()*3,
+      vx: (Math.random()-0.5)*2,
+      rot: Math.random()*360,
+      rspeed: (Math.random()-0.5)*6,
+      opacity: 0.85+Math.random()*0.15
+    });
+  }
+
+  let frame;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive = false;
+    pieces.forEach(p=>{
+      p.y += p.vy;
+      p.x += p.vx;
+      p.rot += p.rspeed;
+      p.opacity -= 0.003;
+      if(p.y < canvas.height && p.opacity > 0) alive = true;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.opacity);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI/180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+    if(alive) frame = requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+
+  if(frame) cancelAnimationFrame(frame);
+  draw();
+}
+</script>
+</body>
+</html>
